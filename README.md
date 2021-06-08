@@ -28,3 +28,10 @@ kubectl run -it --rm pod1 --image=busybox --restart=Never -- sh
 ```
 terragrunt destroy
 ```
+
++ Deploying all modules in Project
+
+```
+cd max/
+terragrunt run-all plan --terragrunt-non-interactive
+```
