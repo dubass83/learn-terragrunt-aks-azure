@@ -4,8 +4,8 @@ locals {
   region_vars      = read_terragrunt_config(find_in_parent_folders("region.hcl"))
 
   # Extract out common variables for reuse
-  env               = local.environment_vars.locals.environment
-  azure_location    = local.region_vars.locals.azure_location
+  env            = local.environment_vars.locals.environment
+  azure_location = local.region_vars.locals.azure_location
 }
 
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
