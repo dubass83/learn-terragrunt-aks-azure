@@ -116,3 +116,56 @@ data:
 
     g, k8s-rs-test:admin, role:org-admin
 ```
+
+## Install Istio as Argo CD App
+
+```
+argocd app create istio-base \
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path istio-base \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace istio-system
+
+```
+Need installed metrics-service for HPA in istod
+
+```
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+```
+
+```
+argocd app create istiod \
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path istiod \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace istio-system
+
+argocd app create istio-ingress \
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path istio-ingress \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace istio-system
+```
+
+```
+argocd app set istio-base --values values.yaml
+argocd app set istiod --values values.yaml
+argocd app set istio-ingress --values values.yaml
+```
+
+## Test Istio
+```
+kubectl create ns istio-app
+kubectl get ns
+kubectl label ns istio-app istio-injection=enabled
+kubectl get ns --show-labels
+
+argocd app create istio-sample-app \
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path istio-sample-app \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace istio-app
+```
+
+curl http://istio-sample-app.dubass83.xyz/productpage
