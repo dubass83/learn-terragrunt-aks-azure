@@ -169,3 +169,39 @@ argocd app create istio-sample-app \
 ```
 
 curl http://istio-sample-app.dubass83.xyz/productpage
+
+```
+argocd app create istio-sleep-app \
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path istio-sleep-app \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace istio-io-tcp-traffic-shifting
+```
+## Argo Rollouts
+
++ Install Argo Rollouts
+
+```
+app create argo-rollouts \                              
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path argo-rollouts \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace argo-rollouts
+```
+
++ Create app blue-green deployment
+
+```
+argocd app create blue-green \
+    --repo https://github.com/k8s-rs-test/argocd-example-apps.git \
+    --path blue-green \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace default
+```
++ install cli tool for Argo Rollouts
+
+`brew install argoproj/tap/kubectl-argo-rollouts`
+
++ show dashbord for Argo Rollouts
+
+`kubectl argo rollouts dashboard`
