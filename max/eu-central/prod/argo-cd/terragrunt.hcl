@@ -25,8 +25,8 @@ dependency "aks" {
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
 inputs = {
-  azurerm_resource_group      = dependency.aks.azurerm_resource_group
-  azurerm_kubernetes_cluster  = dependency.aks.azurerm_kubernetes_cluster
+  azurerm_resource_group      = dependency.aks.outputs.azurerm_resource_group
+  azurerm_kubernetes_cluster  = dependency.aks.outputs.azurerm_kubernetes_cluster
   argo_cd_version             = "stable"
   namespace                   = "argocd"
 }
