@@ -11,7 +11,7 @@ locals {
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  source = "git::git@github.com:dubass83/learn-terraform-provision-aks-cluster.git//argo-cd?ref=v0.0.11"
+  source = "git::git@github.com:dubass83/learn-terraform-provision-aks-cluster.git//aks-login?ref=v0.0.8"
 }
 
 # Include all settings from the root terragrunt.hcl file
@@ -19,33 +19,13 @@ include {
   path = find_in_parent_folders()
 }
 
-generate "provider" {
-  path      = "provider.tf"
-  if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-provider "kubernetes" {
-  config_path    = "~/.kube/config"
-  config_context = "${dependency.aks.outputs.kubernetes_cluster_name}"
-}
-
-provider "k8s" {
-  config_context = "${dependency.aks.outputs.kubernetes_cluster_name}"
-}
-EOF
-}
 
 dependency "aks" {
   config_path  = "../aks"
-}
-dependency "aks-login"{
-  config_path = "../aks-login"
-  skip_outputs = true 
 }
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
 inputs = {
   azurerm_resource_group      = dependency.aks.outputs.resource_group_name
   azurerm_kubernetes_cluster  = dependency.aks.outputs.kubernetes_cluster_name
-  argo_cd_version             = "stable"
-  namespace                   = "argocd"
 }
