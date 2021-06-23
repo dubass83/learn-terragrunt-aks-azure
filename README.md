@@ -118,6 +118,11 @@ data:
 ```
 
 ## Install Istio as Argo CD App
+Need installed metrics-service for HPA in istod
+
+```
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
 
 ```
 argocd app create istio-base \
@@ -125,12 +130,6 @@ argocd app create istio-base \
     --path istio-base \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace istio-system
-
-```
-Need installed metrics-service for HPA in istod
-
-```
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
 ```
 
