@@ -21,7 +21,7 @@ include {
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
 inputs = {
-  node_count      = 2
+  node_count      = 3
   vm_size         = "Standard_D2_v2"
   os_disk_size_gb = 30
   location        = local.azure_location
